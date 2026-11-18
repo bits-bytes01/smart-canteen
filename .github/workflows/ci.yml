@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo:7
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.adminCommand({ ping: 1 })'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install backend and test dependencies
+        working-directory: server
+        run: npm ci
+
+      - name: Check JavaScript syntax
+        shell: bash
+        run: |
+          find server client/js -type f -name '*.js' \
+            -not -path 'server/node_modules/*' -print0 |
+            xargs -0 -n1 node --check
+
+      - name: Run backend logic tests
+        working-directory: server
+        run: npm test
+
+      - name: Install Chromium for browser tests
+        working-directory: server
+        run: npx playwright install --with-deps chromium
+
+      - name: Run browser tests
+        working-directory: server
+        run: npm run test:e2e
+
+      - name: Run MongoDB order integration tests
+        working-directory: server
+        env:
+          TEST_MONGO_URI: mongodb://127.0.0.1:27017/smart_canteen_test
+        run: npm run test:integration
