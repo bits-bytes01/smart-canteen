@@ -1,0 +1,6 @@
+.git
+.github
+**/node_modules
+server/.env
+server/test-results
+server/playwright-report
