@@ -13,6 +13,6 @@ COPY client/ ./client/
 WORKDIR /app/server
 
 ENV NODE_ENV=production
-EXPOSE 3000
+EXPOSE 80
 
 CMD ["node", "server.js"]
