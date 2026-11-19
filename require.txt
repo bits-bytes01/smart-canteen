@@ -13,6 +13,21 @@ SMART CANTEEN - PROJECT REQUIREMENTS
 4. Web Browser
    Required to access the student and admin dashboards.
 
+   BACKEND CONFIGURATION
+
+1. Navigate to the server directory.
+2. Install the required Node.js packages.
+3. Configure the MongoDB connection in the .env file.
+4. Initialize the database using the seed script.
+5. Start the backend server.
+
+Commands:
+
+cd server
+npm install
+npm run seed
+npm start
+
 --install mongodb community
 
 --install node.js
