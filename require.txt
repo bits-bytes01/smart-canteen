@@ -1,50 +1,15 @@
-SMART CANTEEN - PROJECT REQUIREMENTS
+Smart Canteen local setup
 
-1. MongoDB Community Server
-   Used for storing student details, admin information,
-   food menu, and order records.
+Prerequisites
+- Install Node.js (LTS) and MongoDB Community Edition.
+- Start MongoDB and make sure the connection string and other required settings are configured in server/.env.
 
-2. Node.js
-   Required to execute the backend application.
+Run the application
+1. Open a terminal in the server folder.
+2. Run `npm install` to install the Node.js dependencies.
+3. Run `npm run seed` to create the initial admin account and kitchen stations.
+4. Run `npm run seed:menu` to add the sample menu, if needed.
+5. Run `npm start` and open http://localhost:3000.
+6. Create a student account and log in. Open http://localhost:3000/admin for the admin portal.
 
-3. npm
-   Used for installing and managing project dependencies.
-
-4. Web Browser
-   Required to access the student and admin dashboards.
-
-   BACKEND CONFIGURATION
-
-1. Navigate to the server directory.
-2. Install the required Node.js packages.
-3. Configure the MongoDB connection in the .env file.
-4. Initialize the database using the seed script.
-5. Start the backend server.
-
-Commands:
-
-cd server
-npm install
-npm run seed
-npm start
-
---install mongodb community
-
---install node.js
-
---open command prompt in the folder server
-
---enter npm install
-
---then, npm run seed
-
---then, npm start
-
---create account and login
-
---for admin dashboard url-http://localhost:3000/admin
-
---for admin password and phoneno or email check .env file
-
-# Smart Canteen Project Dependencies
-requests==2.32.3
+Use the admin credentials configured in server/.env. Do not publish or commit that file or share its secret values.
