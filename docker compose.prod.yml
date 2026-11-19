@@ -1,0 +1,57 @@
+# Runs Smart Canteen from the image published on Docker Hub (no build step).
+# Put these settings in a file named .env next to this file:
+#   DOCKERHUB_USERNAME=your-dockerhub-name
+#   JWT_SECRET=a_long_random_string
+#   ADMIN_EMAIL=admin@canteen.com
+#   ADMIN_PASSWORD=choose_a_strong_password
+# Then: docker compose -f docker-compose.prod.yml up -d
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --quiet --eval \"db.runCommand({ping:1}).ok\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 15s
+
+  app:
+    image: ${DOCKERHUB_USERNAME}/smart-canteen:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      PORT: 3000
+      TZ: Asia/Kolkata
+      TIMEZONE: Asia/Kolkata
+      MONGO_URI: mongodb://mongo:27017/smart_canteen
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in the .env file}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@canteen.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set ADMIN_PASSWORD in the .env file}
+      BASE_URL: ${BASE_URL:-http://localhost:3000}
+      SHOW_OTP_IN_APP: ${SHOW_OTP_IN_APP:-true}
+      WHATSAPP_ENABLED: "false"
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-465}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      MAIL_FROM: ${MAIL_FROM:-}
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/menu >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 15s
+    ports:
+      - "3000:3000"
+    volumes:
+      - uploads:/app/server/uploads
+
+volumes:
+  mongo-data:
+  uploads:

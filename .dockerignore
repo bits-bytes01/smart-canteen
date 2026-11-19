@@ -1,6 +1,9 @@
-.git
-.github
 **/node_modules
-server/.env
-server/test-results
-server/playwright-report
+**/.env
+server/uploads
+.git
+.gitignore
+*.md
+Dockerfile
+docker-compose.yml
+.dockerignore

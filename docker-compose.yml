@@ -1,0 +1,36 @@
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --quiet --eval \"db.runCommand({ping:1}).ok\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 15s
+    # To look at the data with MongoDB Compass, remove the # on the next two lines:
+    ports:
+       - "27018:27017"
+
+  app:
+    build: .
+    image: smart-canteen:latest
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    env_file: ./server/.env
+    environment:
+      PORT: 3000
+      MONGO_URI: mongodb://mongo:27017/smart_canteen   # overrides MONGO_URI from .env
+      TZ: Asia/Kolkata
+    ports:
+      - "3000:3000"
+    volumes:
+      - uploads:/app/server/uploads
+
+volumes:
+  mongo-data:
+  uploads:
