@@ -15,3 +15,6 @@
 --for admin dashboard url-http://localhost:3000/admin
 
 --for admin password and phoneno or email check .env file
+
+# Smart Canteen Project Dependencies
+requests==2.32.3
