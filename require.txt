@@ -1,17 +1,15 @@
---install mongodb community
+Smart Canteen local setup
 
---install node.js
+Prerequisites
+- Install Node.js (LTS) and MongoDB Community Edition.
+- Start MongoDB and make sure the connection string and other required settings are configured in server/.env.
 
---open command prompt in the folder server
+Run the application
+1. Open a terminal in the server folder.
+2. Run `npm install` to install the Node.js dependencies.
+3. Run `npm run seed` to create the initial admin account and kitchen stations.
+4. Run `npm run seed:menu` to add the sample menu, if needed.
+5. Run `npm start` and open http://localhost:3000.
+6. Create a student account and log in. Open http://localhost:3000/admin for the admin portal.
 
---enter npm install
-
---then, npm run seed
-
---then, npm start
-
---create account and login
-
---for admin dashboard url-http://localhost:3000/admin
-
---for admin password and phoneno or email check .env file
+Use the admin credentials configured in server/.env. Do not publish or commit that file or share its secret values.
