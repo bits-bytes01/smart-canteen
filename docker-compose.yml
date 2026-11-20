@@ -10,9 +10,9 @@ services:
       timeout: 5s
       retries: 6
       start_period: 15s
-    # To look at the data with MongoDB Compass, remove the # on the next two lines:
+    # MongoDB Compass on the host connects to localhost:27018.
     ports:
-       - "27018:27017"
+      - "27018:27017"
 
   app:
     build: .

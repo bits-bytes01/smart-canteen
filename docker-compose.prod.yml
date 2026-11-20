@@ -12,6 +12,9 @@ services:
     restart: unless-stopped
     volumes:
       - mongo-data:/data/db
+    # Connect from MongoDB Compass on the host with localhost:27018.
+    ports:
+      - "27018:27017"
     healthcheck:
       test: ["CMD-SHELL", "mongosh --quiet --eval \"db.runCommand({ping:1}).ok\" || exit 1"]
       interval: 10s
