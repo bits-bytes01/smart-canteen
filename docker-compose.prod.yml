@@ -28,6 +28,8 @@ services:
     depends_on:
       mongo:
         condition: service_healthy
+    # Reuse the SMTP settings already configured in server/.env.
+    env_file: ./server/.env
     environment:
       PORT: 3000
       TZ: Asia/Kolkata
@@ -39,11 +41,6 @@ services:
       BASE_URL: ${BASE_URL:-http://localhost:3000}
       SHOW_OTP_IN_APP: ${SHOW_OTP_IN_APP:-true}
       WHATSAPP_ENABLED: "false"
-      SMTP_HOST: ${SMTP_HOST:-}
-      SMTP_PORT: ${SMTP_PORT:-465}
-      SMTP_USER: ${SMTP_USER:-}
-      SMTP_PASS: ${SMTP_PASS:-}
-      MAIL_FROM: ${MAIL_FROM:-}
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/menu >/dev/null || exit 1"]
       interval: 10s
