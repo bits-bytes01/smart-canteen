@@ -1,0 +1,5 @@
+Smart Canteen Project
+
+This project helps students order food online.
+Students can browse the menu, place orders, and avoid waiting in long queues.
+The system also provides an admin panel to manage menu items and orders.
